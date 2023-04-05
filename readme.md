@@ -1,13 +1,19 @@
 # Grails_practice
 
-curl -i  localhost:8080/products
+## Versions ##
+ - JDK1.8(8)
+ - Grails 3
+ - React 16.2.0
+ - MongoDB 5
 
-curl -i -H "Content-Type:application/json" -X POST localhost:8080/products -d '{"name":"Orange","price":2.0}'
 
-curl -i -H "Content-Type:application/json" -X PUT localhost:8080/products/1 -d '{"price":3.0}'
+## Mongod ##
+Mongod version is 5.0
+### command ###
+    mongod --auth -dbpath /Users/yun/data/db --bind_ip 127.0.0.1
 
-curl -i -X DELETE localhost:8080/products/1
 
-mongod --auth -dbpath /Users/yun/data/db
-
-mongosh "mongodb://MyAdmin:1353@localhost:27017/admin?authSource=admin"
+## Mongosh ##
+mongosh version is 5.0 following Mongodb-community@5.0
+### command ###
+    mongosh "mongodb://MyAdmin:1353@localhost:27017/admin?authSource=admin"

@@ -114,16 +114,18 @@ environments:
     development:
         grails:
             mongodb:
-                host: "localhost"
-                port: 27017
-                username: ""
-                password: ""
-                databaseName: "grails-react"
+                url: "mongodb://MyAdmin:1353@localhost:27017/admin?authSource=admin"
+#                host: "localhost"
+#                port: 27017
+#                username: ""
+#                password: ""
+#                databaseName: "admin"
     production:
         grails:
             mongodb:
-                host: "localhost"
-                port: 27017
-                username: ""
-                password: ""
-                databaseName: "grails-react"
+                url: "mongodb://MyAdmin:1353@localhost:27017/admin?authSource=admin"
+#                host: "localhost"
+#                port: 27017
+#                username: ""
+#                password: ""
+#                databaseName: "admin"
