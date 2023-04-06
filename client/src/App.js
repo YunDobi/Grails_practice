@@ -1,70 +1,60 @@
 import React, { Component } from 'react';
-import { Grid } from 'react-bootstrap';
-import AppNav from './AppNav';
-
-import grailsLogo from './images/grails-cupsonly-logo-white.svg';
-import reactLogo from './images/logo.svg';
-import { SERVER_URL, CLIENT_VERSION, REACT_VERSION } from './config';
-import 'whatwg-fetch';
+import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class App extends Component {
-
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
-      serverInfo: {},
-      clientInfo: {
-        version: CLIENT_VERSION,
-        react: REACT_VERSION
-      }
-    }
+      customers: [],
+    };
   }
 
   componentDidMount() {
-    fetch(SERVER_URL + '/application')
-      .then(r => r.json())
-      .then(json => this.setState({serverInfo: json}))
-      .catch(error => console.error('Error connecting to server: ' + error));
-
+    axios.get('http://localhost:8080/customer').then((res) => {
+      this.setState({ customers: res.data });
+      console.log(this.state.customers);
+    });
   }
 
   render() {
-    const serverInfo = this.state.serverInfo;
-    const clientInfo = this.state.clientInfo;
-
     return (
-      <div>
-        <AppNav serverInfo={serverInfo} clientInfo={clientInfo}/>
-        <div className="grails-logo-container">
-          <img className="grails-logo" src={grailsLogo} alt="Grails" />
-          <span className="plus-logo">+</span>
-          <img className="hero-logo" src={reactLogo} alt="React" />
-        </div>
-
-        <Grid>
-          <div id="content">
-            <section className="row colset-2-its">
-              <h1 style={{textAlign: 'center'}}>Welcome to Grails</h1>
-              <br/>
-              <p>
-                Congratulations, you have successfully started your Grails & React application! While in development mode, changes will be loaded automatically when you edit your React app, without even refreshing the page.
-                Below is a list of controllers that are currently deployed in
-                this application, click on each to execute its default action:
-              </p>
-
-              <div id="controllers" role="navigation">
-                <h2>Available Controllers:</h2>
-                <ul>
-                  {serverInfo.controllers ? serverInfo.controllers.map(controller => {
-                    return <li key={controller.name}><a href={SERVER_URL + controller.logicalPropertyName}>{ controller.name }</a></li>;
-                  }) : null }
-                </ul>
-              </div>
-            </section>
-
+      <div class='container'>
+        <div class='panel panel-default'>
+          <div class='panel-heading'>
+            <h3 class='panel-title'>CUSTOMER LIST</h3>
           </div>
-        </Grid>
+          <div class='panel-body'>
+            <h4>
+              <Link to='/create'>
+                <span
+                  class='glyphicon glyphicon-plus-sign'
+                  aria-hidden='true'
+                ></span>{' '}
+                Add Customer
+              </Link>
+            </h4>
+            <table class='table table-stripe'>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.customers.map((cust) => (
+                  <tr>
+                    <td>
+                      <Link to={`/show/${cust.id}`}>{cust.name}</Link>
+                    </td>
+                    <td>{cust.address}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     );
   }
